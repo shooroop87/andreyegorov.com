@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     "tinymce",
     "core",
     "blog",
-    "tours",
+    "portfolio",
 ]
 # Работает в связке с django.contrib.sites
 # SITE_ID = 1
@@ -76,7 +76,7 @@ MIDDLEWARE = [
 if DEBUG:
     MIDDLEWARE.append("django_browser_reload.middleware.BrowserReloadMiddleware")
 
-ROOT_URLCONF = "config.urls"
+ROOT_URLCONF = "backend.urls"
 
 TEMPLATES_DIR = BASE_DIR / "templates"
 TEMPLATES = [
@@ -85,7 +85,7 @@ TEMPLATES = [
         "DIRS": [
             BASE_DIR / "core" / "templates",  # Основные шаблоны
             BASE_DIR / "blog" / "templates",  # Шаблоны блога
-            BASE_DIR / "tours" / "templates",  # Шаблоны туров
+            BASE_DIR / "portfolio" / "templates",  # Шаблоны портфолио
             BASE_DIR / "templates",  # Общие шаблоны
         ],
         "APP_DIRS": True,
@@ -107,19 +107,27 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "config.wsgi.application"
+WSGI_APPLICATION = "backend.wsgi.application"
 
-# PostgreSQL
+# Найди DATABASES и замени на SQLite:
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("POSTGRES_DB", "abroadtours"),
-        "USER": os.getenv("POSTGRES_USER", "abroadtours_user"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD", ""),
-        "HOST": os.getenv("DB_HOST", ""),
-        "PORT": int(os.getenv("DB_PORT", 5432)),
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+# # PostgreSQL
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": os.getenv("POSTGRES_DB", "abroadtours"),
+#         "USER": os.getenv("POSTGRES_USER", "abroadtours_user"),
+#         "PASSWORD": os.getenv("POSTGRES_PASSWORD", ""),
+#         "HOST": os.getenv("DB_HOST", ""),
+#         "PORT": int(os.getenv("DB_PORT", 5432)),
+#     }
+# }
 
 DEFAULT_CHARSET = "utf-8"
 FILE_CHARSET = "utf-8"
