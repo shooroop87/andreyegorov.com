@@ -137,17 +137,25 @@ USE_TZ = True
 
 LANGUAGES = [
     ("en", "English"),
-    ("fr", _("French")),
-    ("de", _("German")),
-    ("es", _("Spanish")),
-    ("nl", _("Dutch")),
+    ("it", _("Italian")),
+    ("ru", _("Russian")),
 ]
 
 LOCALE_PATHS = [BASE_DIR / "core" / "locale"]
 
+# Parler
+PARLER_LANGUAGES = {
+    None: (
+        {"code": "en"},
+        {"code": "it"},
+        {"code": "ru"},
+    ),
+    "default": {"fallbacks": ["en"], "hide_untranslated": False},
+}
+
 # Static & media
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [BASE_DIR / "core" / "static"]
+STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "collected_static"
 
 MEDIA_URL = "/media/"
@@ -336,17 +344,7 @@ GOOGLE_PLACES_API_KEY = os.getenv("GOOGLE_PLACES_API_KEY", "")
 GOOGLE_PLACE_ID = os.getenv("GOOGLE_PLACE_ID", "")
 REVIEWS_CACHE_TIMEOUT = int(os.getenv("REVIEWS_CACHE_TIMEOUT", 86400))
 
-# Parler
-PARLER_LANGUAGES = {
-    None: (
-        {"code": "en"},
-        {"code": "fr"},
-        {"code": "de"},
-        {"code": "es"},
-        {"code": "nl"},
-    ),
-    "default": {"fallbacks": ["en"], "hide_untranslated": False},
-}
+
 
 # ===================== DJANGO TINYMCE =====================
 
