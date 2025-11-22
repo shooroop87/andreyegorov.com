@@ -2319,7 +2319,7 @@ p.t-semibold {
   display: -ms-inline-flexbox;
   display: inline-flex;
   position: relative;
-  font-size: 2rem;
+  font-size: 2.5rem;
   overflow: hidden;
   -webkit-transform: scale(1);
      -moz-transform: scale(1);
@@ -4312,6 +4312,52 @@ form textarea:required:valid {
   .mxd-logo__text {
     font-size: 2.4rem;
   }
+}
+
+.mxd-hero__text, .mxd-hero__text2 {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.mxd-hero__text {
+  letter-spacing: normal;
+  color: var(--t-bright);
+  font: normal var(--fw-medium) 9.5rem / 1.2 var(--_font-accent);
+}
+
+.mxd-hero__text2 {
+  letter-spacing: normal;
+  color: var(--t-bright);
+  font: normal var(--fw-medium) 9.5rem / 1.2 var(--_font-accent);
+  margin-top: -2rem;
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+  justify-content: flex-start;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 0 0;
+}
+
+.footer-links li img {
+  display: block;
+}
+
+.footer-blocks__card ul li:first-child img {
+  width: 55%;
+}
+
+@media only screen and (min-width: 768px) {
+    .mxd-hero__text, .mxd-hero__text2 {
+      display: inline-block;
+      margin: 0;
+      padding: 0;
+      font: normal var(--fw-medium) 24rem / 1.2 var(--_font-accent);
+    }
 }
 
 .mxd-section-title {
@@ -18349,7 +18395,7 @@ form textarea:required:valid {
 }
 @media only screen and (min-width: 1600px) {
   .services-stack {
-    height: 760px;
+    height: 650px;
   }
 }
 
