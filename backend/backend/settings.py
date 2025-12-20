@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     "filer",
     "mptt",
     "parler",
-    "taggit",
     "meta",
     "tinymce",
     "core",
@@ -55,7 +54,7 @@ INSTALLED_APPS = [
     "portfolio",
 ]
 # Работает в связке с django.contrib.sites
-# SITE_ID = 1
+SITE_ID = 1
 
 # Dev-only apps
 if DEBUG:
@@ -118,8 +117,8 @@ DATABASES = {
 # DATABASES = {
 #     "default": {
 #         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": os.getenv("POSTGRES_DB", "abroadtours"),
-#         "USER": os.getenv("POSTGRES_USER", "abroadtours_user"),
+#         "NAME": os.getenv("POSTGRES_DB", "andreyegorov"),
+#         "USER": os.getenv("POSTGRES_USER", "andreyegorov_user"),
 #         "PASSWORD": os.getenv("POSTGRES_PASSWORD", ""),
 #         "HOST": os.getenv("DB_HOST", ""),
 #         "PORT": int(os.getenv("DB_PORT", 5432)),
@@ -178,21 +177,13 @@ THUMBNAIL_PROCESSORS = (
     "easy_thumbnails.processors.filters",
 )
 
-# Отключить строгий режи
-# WHITENOISE_MANIFEST_STRICT = False
-
-# Cache / static storages
+# Кеширование
 if DEBUG:
-    STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
     CACHES = {"default": {"BACKEND": "django.core.cache.backends.dummy.DummyCache"}}
 else:
-    # STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-    STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
     CACHES = {
         "default": {
-            "BACKEND": "django_redis.cache.RedisCache",
-            "LOCATION": os.getenv("REDIS_URL", "redis://redis:6379/1"),
-            "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
+            "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
         }
     }
 

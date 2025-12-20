@@ -4,7 +4,6 @@ volumes:
   pg_data_production:
   static_volume:
   media:
-  redis_data:
 
 services:
   db:
@@ -19,24 +18,12 @@ services:
       retries: 3
     restart: unless-stopped
 
-  redis:
-    image: redis:7
-    volumes:
-      - redis_data:/data
-    command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-    restart: unless-stopped
-
   backend:
     user: "0:0"
     image: egorovdocker/andreyegorov_backend
     env_file: .env
     environment:
-      - DOCKER_ENV=true  # НОВОЕ: Включаем упрощенное логирование для Docker
+      - DOCKER_ENV=true
     volumes:
       - static_volume:/app/collected_static
       - media:/app/media/
@@ -50,43 +37,14 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      redis:
-        condition: service_healthy
-    restart: unless-stopped
-
-  # Автообновление отзывов каждые 12 часов
-  reviews-updater:
-    image: egorovdocker/andreyegorov_backend
-    env_file: .env
-    environment:
-      - DOCKER_ENV=true
-    depends_on:
-      db:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    command: >
-      sh -c "
-        echo 'Starting reviews updater daemon...' &&
-        # Устанавливаем cron задачи
-        echo '0 6 * * * cd /app && python manage.py import_reviews --max-reviews=100 2>&1 | logger -t reviews-updater' > /tmp/crontab &&
-        echo '0 18 * * * cd /app && python manage.py import_reviews --max-reviews=100 2>&1 | logger -t reviews-updater' >> /tmp/crontab &&
-        crontab /tmp/crontab &&
-        echo 'Cron schedule installed:' &&
-        crontab -l &&
-        echo 'Reviews updater started at' \$(date) &&
-        # Запускаем cron в фоне и держим контейнер живым
-        crond &&
-        while true; do sleep 3600; done
-      "
     restart: unless-stopped
 
   gateway:
     image: egorovdocker/andreyegorov_gateway
     env_file: .env
     volumes:
-      - static_volume:/staticfiles:ro   # nginx location /static/ -> alias /staticfiles/
-      - media:/mediafiles:ro            # nginx location /media/  -> alias /mediafiles/
+      - static_volume:/staticfiles:ro
+      - media:/mediafiles:ro
     ports:
       - 8000:80
     depends_on:
@@ -94,27 +52,6 @@ services:
     restart: unless-stopped
 
   # === СЕРВИСЫ ОБСЛУЖИВАНИЯ ===
-
-  redis-cleaner:
-    image: redis:7
-    env_file: .env
-    depends_on:
-      redis:
-        condition: service_healthy
-    restart: "no"
-    profiles: ["maintenance"]
-    command: >
-      sh -c "
-        echo 'Starting Redis cache cleanup...' &&
-        redis-cli -h redis --eval - 0 <<EOF
-        local keys = redis.call('keys', 'cache:*')
-        for i=1,#keys,5000 do
-            redis.call('del', unpack(keys, i, math.min(i+4999, #keys)))
-        end
-        return #keys
-        EOF
-        echo 'Redis cache cleaned'
-      "
 
   db-backup:
     image: postgres:13.10
