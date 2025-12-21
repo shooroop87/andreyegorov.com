@@ -16,17 +16,12 @@
         <div class="footer-blocks__nav">
           <ul class="footer-nav">
             <li class="footer-nav__item anim-uni-in-up">
-              <a href="#main" class="footer-nav__link btn-anim">
+              <a href="{% url 'index' %}" class="footer-nav__link btn-anim">
                 <span class="btn-caption">Home</span>
               </a>
             </li>
             <li class="footer-nav__item anim-uni-in-up">
-              <a href="#about" class="footer-nav__link btn-anim">
-                <span class="btn-caption">About</span>
-              </a>
-            </li>
-            <li class="footer-nav__item anim-uni-in-up">
-              <a href="#projects" class="footer-nav__link btn-anim">
+              <a href="{% url 'projects' %}" class="footer-nav__link btn-anim">
                 <span class="btn-caption">Projects</span>
               </a>
               <p class="footer-nav__counter">
@@ -43,12 +38,12 @@
               </p>
             </li>
             <li class="footer-nav__item anim-uni-in-up">
-              <a href="#blog" class="footer-nav__link btn-anim">
+              <a href="{% url 'blog' %}" class="footer-nav__link btn-anim">
                 <span class="btn-caption">Blog</span>
               </a>
             </li>
             <li class="footer-nav__item anim-uni-in-up">
-              <a href="#contact" class="footer-nav__link btn-anim">
+              <a href="{% url 'contacts' %}" class="footer-nav__link btn-anim">
                 <span class="btn-caption">Contact</span>
               </a>
             </li>

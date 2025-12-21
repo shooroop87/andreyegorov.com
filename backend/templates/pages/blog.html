@@ -1,0 +1,113 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Blog - Andrey Egorov{% endblock %}
+
+{% block content %}
+{% include 'mainpage/loader.html' %}
+
+<main id="mxd-page-content" class="mxd-page-content inner-page-content">
+
+  <!-- Headline -->
+  <div class="mxd-section mxd-section-inner-headline padding-blog-descr-pre-grid">
+    <div class="mxd-container grid-container">
+      <div class="mxd-block loading-wrap">
+        <div class="container-fluid px-0">
+          <div class="row gx-0">
+            <div class="col-12 col-xl-7 mxd-grid-item no-margin">
+              <div class="mxd-block__content">
+                <div class="mxd-block__inner-headline loading__item">
+                  <h1 class="inner-headline__title">Insights & Articles</h1>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-xl-5 mxd-grid-item no-margin">
+              <div class="mxd-block__content">
+                <div class="inner-headline__descr loading__item">
+                  <p>Thoughts on web development, data analytics, and building digital products.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Articles List -->
+  <div class="mxd-section padding-default">
+    <div class="mxd-container grid-container">
+
+      <!-- Section Title -->
+      <div class="mxd-block">
+        <div class="mxd-section-title no-controls">
+          <div class="container-fluid p-0">
+            <div class="row g-0">
+              <div class="col-12 col-xl-8 mxd-grid-item no-margin">
+                <div class="mxd-section-title__hrtitle">
+                  <h2>All<br>articles</h2>
+                </div>
+              </div>
+              <div class="col-12 col-xl-4 mxd-grid-item no-margin">
+                <div class="mxd-section-title__hrdescr">
+                  <p>Browse through all articles and tutorials.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Articles Archive -->
+      <div class="mxd-block">
+        <div class="mxd-projects-archive">
+
+          {% for article in articles %}
+          <a class="mxd-projects-archive__item" href="{{ article.get_absolute_url }}">
+            <div class="mxd-projects-archive__border"></div>
+            <div class="mxd-projects-archive__inner">
+              <div class="container-fluid px-0">
+                <div class="row gx-0">
+                  <div class="col-12 col-xl-8 mxd-grid-item no-margin">
+                    <div class="mxd-projects-archive__title">
+                      {% if article.image %}
+                      <div class="mxd-projects-archive__image">
+                        <img src="{{ article.image.url }}" alt="{{ article.title }}">
+                      </div>
+                      {% endif %}
+                      <p><span>{{ article.title }}</span></p>
+                    </div>
+                  </div>
+                  <div class="col-6 col-md-6 col-xl-2 mxd-grid-item no-margin">
+                    <div class="mxd-projects-archive__tagslist">
+                      <ul>
+                        {% for tag in article.get_tags_list %}
+                        <li><p class="t-small">{{ tag }}</p></li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="col-6 col-md-6 col-xl-2 mxd-grid-item no-margin">
+                    <div class="mxd-projects-list__date">
+                      <p class="t-small">{{ article.published_at|date:"F d, Y" }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mxd-projects-archive__border"></div>
+          </a>
+          {% empty %}
+          <div class="mxd-block__manifest centered anim-uni-in-up">
+            <p class="t-large t-bright">Articles coming soon...</p>
+          </div>
+          {% endfor %}
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+{% endblock %}

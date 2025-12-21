@@ -1,5 +1,10 @@
 from django.shortcuts import render
 from django.views.decorators.cache import cache_page
+from django.shortcuts import get_object_or_404
+from django.views.decorators.http import require_POST
+from django.core.mail import send_mail
+from django.http import JsonResponse
+from django.conf import settings
 
 # Главная страница
 def index(request):
@@ -19,21 +24,23 @@ def about(request):
 
 # Проекты
 def projects(request):
+    from portfolio.models import Project
+    
     context = {
         'page_title': 'Projects',
-        'meta_description': 'Portfolio of web development and data analytics projects by Andrey Egorov.',
-        # Здесь можно добавить список проектов из БД
-        # 'projects': Project.objects.filter(published=True).order_by('-created_at')
+        'meta_description': 'Portfolio of web development and data analytics projects.',
+        'projects': Project.objects.filter(is_published=True),
     }
     return render(request, 'pages/projects.html', context)
 
 # Блог
 def blog(request):
+    from blog.models import Article
+    
     context = {
         'page_title': 'Blog',
-        'meta_description': 'Articles and insights about web development, data analytics, and technology.',
-        # Здесь можно добавить список постов
-        # 'posts': BlogPost.objects.filter(published=True).order_by('-published_at')[:10]
+        'meta_description': 'Articles about web development and data analytics.',
+        'articles': Article.objects.filter(is_published=True),
     }
     return render(request, 'pages/blog.html', context)
 
@@ -48,3 +55,44 @@ def contacts(request):
         'whatsapp': 'https://api.whatsapp.com/send?phone=393458856224',
     }
     return render(request, 'pages/contacts.html', context)
+
+# Статья
+def article_detail(request, slug):
+    from blog.models import Article
+    article = get_object_or_404(Article, slug=slug, is_published=True)
+    return render(request, 'pages/article.html', {'article': article})
+
+
+@require_POST
+def contact_submit(request):
+    try:
+        name = request.POST.get('name', '')
+        email = request.POST.get('email', '')
+        phone = request.POST.get('phone', '')
+        company = request.POST.get('company', '')
+        message = request.POST.get('message', '')
+        
+        subject = f'Portfolio Contact: {name}'
+        body = f"""
+New message from portfolio:
+
+Name: {name}
+Email: {email}
+Phone: {phone}
+Company: {company}
+
+Message:
+{message}
+        """
+        
+        send_mail(
+            subject=subject,
+            message=body,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[settings.CONTACT_EMAIL],
+            fail_silently=False,
+        )
+        
+        return JsonResponse({'status': 'success'})
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)

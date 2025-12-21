@@ -1,0 +1,105 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}{{ article.title }} - Andrey Egorov{% endblock %}
+
+{% block content %}
+{% include 'mainpage/loader.html' %}
+
+<main id="mxd-page-content" class="mxd-page-content inner-page-content">
+
+  <!-- Section - Blog Article Start -->
+  <div class="mxd-section padding-pre-title">
+    <div class="mxd-container grid-container">
+      <div class="mxd-article-area loading-wrap">
+
+        <!-- Article Container Start -->
+        <div class="mxd-article-container mxd-grid-item no-margin">
+
+          <!-- Article Start -->
+          <article class="mxd-article">
+
+            <!-- Article Headline Start -->
+            <div class="mxd-article__headline">
+              <div class="mxd-article__meta">
+                <div class="mxd-article__breadcrumbs loading__item">
+                  <span><a href="{% url 'index' %}">Home</a></span>
+                  <span><a href="{% url 'blog' %}">Blog</a></span>
+                  <span class="current-item">{{ article.title|truncatewords:5 }}</span>
+                </div>
+                <div class="mxd-article__data loading__item">
+                  <span class="meta-date">
+                    {{ article.published_at|date:"F d, Y" }}
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 20 20">
+                      <path d="M19.6,9.6h-3.9c-.4,0-1.8-.2-1.8-.2-.6,0-1.1-.2-1.6-.6-.5-.3-.9-.8-1.2-1.2-.3-.4-.4-.9-.5-1.4,0,0,0-1.1-.2-1.5V.4c0-.2-.2-.4-.4-.4s-.4.2-.4.4v4.4c0,.4-.2,1.5-.2,1.5,0,.5-.2,1-.5,1.4-.3.5-.7.9-1.2,1.2s-1,.5-1.6.6c0,0-1.2,0-1.7.2H.4c-.2,0-.4.2-.4.4s.2.4.4.4h4.1c.4,0,1.7.2,1.7.2.6,0,1.1.2,1.6.6.4.3.8.7,1.1,1.1.3.5.5,1,.6,1.6,0,0,0,1.3.2,1.7v4.1c0,.2.2.4.4.4s.4-.2.4-.4v-4.1c0-.4.2-1.7.2-1.7,0-.6.2-1.1.6-1.6.3-.4.7-.8,1.1-1.1.5-.3,1-.5,1.6-.6,0,0,1.3,0,1.8-.2h3.9c.2,0,.4-.2.4-.4s-.2-.4-.4-.4h0Z"/>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+              <div class="mxd-article__title loading__item">
+                <h1 class="h1-small">{{ article.title }}</h1>
+              </div>
+              <div class="mxd-article__tags loading__item">
+                {% for tag in article.get_tags_list %}
+                <span class="tag tag-default tag-outline">{{ tag }}</span>
+                {% endfor %}
+              </div>
+            </div>
+            <!-- Article Headline End -->
+
+            {% if article.image %}
+            <!-- Article Thumb Start -->
+            <div class="mxd-article__thumb loading__fade">
+              <img src="{{ article.image.url }}" alt="{{ article.title }}">
+            </div>
+            <!-- Article Thumb End -->
+            {% endif %}
+
+            <!-- Article Content Start -->
+            <div class="mxd-article__content">
+              {% if article.excerpt %}
+              <div class="mxd-article__block">
+                <p class="t-large mxd-article__excerpt">{{ article.excerpt }}</p>
+              </div>
+              {% endif %}
+              
+              <div class="mxd-article__block">
+                {{ article.content|safe }}
+              </div>
+            </div>
+            <!-- Article Content End -->
+
+          </article>
+          <!-- Article End -->
+
+          <!-- Article Navigation Start -->
+          <div class="mxd-article-nav">
+            <div class="container-fluid px-0">
+              <div class="row gx-0">
+                <div class="col-12 col-md-6 mxd-grid-item no-margin">
+                  <a class="btn btn-anim btn-default btn-outline slide-left" href="{% url 'blog' %}">
+                    <i class="ph ph-arrow-left"></i>
+                    <span class="btn-caption">Back to Blog</span>
+                  </a>
+                </div>
+                <div class="col-12 col-md-6 mxd-grid-item no-margin text-end">
+                  <a class="btn btn-anim btn-default btn-accent slide-right-up" href="{% url 'contacts' %}">
+                    <span class="btn-caption">Get in Touch</span>
+                    <i class="ph-bold ph-arrow-up-right"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Article Navigation End -->
+
+        </div>
+        <!-- Article Container End -->
+
+      </div>
+    </div>
+  </div>
+  <!-- Section - Blog Article End -->
+
+</main>
+{% endblock %}

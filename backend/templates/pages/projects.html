@@ -1,0 +1,79 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Projects - Andrey Egorov{% endblock %}
+
+{% block content %}
+{% include 'mainpage/loader.html' %}
+
+<main id="mxd-page-content" class="mxd-page-content inner-page-content">
+
+  <!-- Section - Projects Masonry Start -->
+  <div class="mxd-section mxd-section-inner-headline grid-headline padding-default">
+    <div class="mxd-container grid-l-container">
+
+      <div class="mxd-block loading-wrap">
+        <div class="mxd-projects-masonry loading__item">
+          <div class="container-fluid p-0">
+
+            <!-- Portfolio Gallery Start -->
+            <div class="row g-0 mxd-projects-masonry__gallery" data-masonry='{"percentPosition": true }'>
+              
+              <!-- Title -->
+              <div class="col-12 col-xl-6 mxd-projects-masonry__title headline-title">
+                <div class="mxd-block__inner-headline">
+                  <h1 class="inner-headline__title">Projects<br>to explore</h1>
+                </div>
+              </div>
+
+              {% for project in projects %}
+              <!-- Project Item -->
+              <div class="col-12 col-xl-6 mxd-project-item mxd-projects-masonry__item">
+                <a class="mxd-project-item__media masonry-media" href="{% if project.url %}{{ project.url }}{% else %}#{% endif %}" {% if project.url %}target="_blank"{% endif %}>
+                  <div class="mxd-project-item__preview masonry-preview parallax-img-small">
+                    {% if project.image %}
+                    <img src="{{ project.image.url }}" alt="{{ project.title }}">
+                    {% endif %}
+                  </div>
+                  <div class="mxd-project-item__tags">
+                    {% for tag in project.get_tags_list %}
+                    <span class="tag tag-default tag-permanent">{{ tag }}</span>
+                    {% endfor %}
+                  </div>
+                </a>
+                <div class="mxd-project-item__promo masonry-promo">
+                  <div class="mxd-project-item__name">
+                    <a href="{% if project.url %}{{ project.url }}{% else %}#{% endif %}">
+                      <span>{{ project.title }}</span> {{ project.subtitle }}
+                    </a>
+                  </div>
+                </div>
+              </div>
+              {% empty %}
+              <!-- No projects -->
+              <div class="col-12 mxd-grid-item">
+                <p class="t-large t-bright">Projects coming soon...</p>
+              </div>
+              {% endfor %}
+
+            </div>
+            <!-- Portfolio Gallery End -->
+
+            <!-- CTA Button -->
+            <div class="mxd-projects-masonry__btngroup anim-uni-in-up">
+              <a class="btn btn-anim btn-default btn-accent slide-right-up" href="{% url 'contacts' %}">
+                <span class="btn-caption">Start a Project</span>
+                <i class="ph-bold ph-arrow-up-right"></i>
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- Section - Projects Masonry End -->
+
+</main>
+{% endblock %}
