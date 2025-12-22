@@ -63,31 +63,40 @@ gsap.registerPlugin(Flip);
 // --------------------------------------------- //
 // Loader & Loading Animation Start
 // --------------------------------------------- //
-const content = document.querySelector('body');
-const imgLoad = imagesLoaded(content);
-const loadingWrap = document.querySelector('.loading-wrap');
-const loadingItems = loadingWrap.querySelectorAll('.loading__item');
-const fadeInItems = document.querySelectorAll('.loading__fade');
+// const content = document.querySelector('body');
+// const imgLoad = imagesLoaded(content);
+// const loadingWrap = document.querySelector('.loading-wrap');
+// const loadingItems = loadingWrap.querySelectorAll('.loading__item');
+// const fadeInItems = document.querySelectorAll('.loading__fade');
 
-function startLoader() {
-  let counterElement = document.querySelector(".loader__count .count__text");
-  let currentValue = 0;
-  function updateCounter() {
-    if (currentValue < 100) {
-      let increment = Math.floor(Math.random() * 10) + 1;
-      currentValue = Math.min(currentValue + increment, 100);
-      counterElement.textContent = currentValue;
-      let delay = Math.floor(Math.random() * 120) + 25;
-      setTimeout(updateCounter, delay);
-    }
-  }
-  updateCounter();
-}
-startLoader();
+// function startLoader() {
+//   let counterElement = document.querySelector(".loader__count .count__text");
+//   let currentValue = 0;
+//   function updateCounter() {
+//     if (currentValue < 100) {
+//       let increment = Math.floor(Math.random() * 10) + 1;
+//       currentValue = Math.min(currentValue + increment, 100);
+//       counterElement.textContent = currentValue;
+//       let delay = Math.floor(Math.random() * 120) + 25;
+//       setTimeout(updateCounter, delay);
+//     }
+//   }
+//   updateCounter();
+// }
+// startLoader();
 
-imgLoad.on('done', instance => {
-  hideLoader();
-  pageAppearance();
+// imgLoad.on('done', instance => {
+//   hideLoader();
+//   pageAppearance();
+// });
+
+// Simple page appearance without loader
+document.addEventListener('DOMContentLoaded', () => {
+  const loadingItems = document.querySelectorAll('.loading__item');
+  const fadeInItems = document.querySelectorAll('.loading__fade');
+  
+  gsap.set(loadingItems, { opacity: 1, y: 0 });
+  gsap.set(fadeInItems, { opacity: 1 });
 });
 
 function hideLoader() {
@@ -1427,9 +1436,16 @@ SVGInjector(mySVGsToInject, injectorOptions, function (totalSVGsInjected) {
 // Color Switch Start
 // --------------------------------------------- //
 const themeBtn = document.querySelector('#color-switcher');
+// function getCurrentTheme(){
+//   let theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+//   localStorage.getItem('template.theme') ? theme = localStorage.getItem('template.theme') : null;
+//   return theme;
+// }
 function getCurrentTheme(){
-  let theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  localStorage.getItem('template.theme') ? theme = localStorage.getItem('template.theme') : null;
+  let theme = localStorage.getItem('template.theme');
+  if (!theme) {
+    theme = 'dark'; // По умолчанию тёмная вместо системной
+  }
   return theme;
 }
 function loadTheme(theme){

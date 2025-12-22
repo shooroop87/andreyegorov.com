@@ -1,13 +1,11 @@
 /*! ------------------------------------------------
- * Project Name: Rayo - Digital Agency & Personal Portfolio HTML Template
- * Project Description: Elevate your digital presence with Rayo - dynamic and stylish HTML template designed for creative agencies and personal brands. With modern layouts, smooth interactions and a polished aesthetic, Rayo template helps showcase projects, services and expertise with clarity and impact.
+ * Project Name: AndreyEgorov.com
+ * Project Description: Full-Stack Developer, Data & Product Analyst based in Milan
  * Tags: mix_design, resume, portfolio, personal page, cv, template, one page, responsive, html5, css3, creative, clean, agency, studio 
- * Version: 1.0.0
- * Build Date: July 2025
- * Last Update: August 2025
- * This product is available exclusively on Themeforest
- * Author: mix_design
- * Author URI: https://themeforest.net/user/mix_design */
+ * Version: 1.0.5
+ * Build Date: Aprile 2015
+ * Author: Andrey Egorov
+ * Author URI: https://andreyegorov.com/ */
 /*! File name: plugins.css
  * ------------------------------------------------
  *
@@ -45093,7 +45091,7 @@ table {
   src: url("../fonts/Phosphor/Phosphor.woff2") format("woff2"), url("../fonts/Phosphor/Phosphor.woff") format("woff"), url("../fonts/Phosphor/Phosphor.ttf") format("truetype"), url("../fonts/Phosphor/Phosphor.svg#Phosphor") format("svg");
   font-weight: normal;
   font-style: normal;
-  font-display: block;
+  font-display: swap;
 }
 .ph {
   /* use !important to prevent issues with browser extensions that change fonts */
@@ -45103,6 +45101,7 @@ table {
   font-weight: normal;
   font-variant: normal;
   text-transform: none;
+  font-display: swap;
   line-height: 1;
   /* Enable Ligatures ================ */
   letter-spacing: 0;

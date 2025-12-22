@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "core",
     "blog",
     "portfolio",
+    "payments"
 ]
 
 # Работает в связке с django.contrib.sites
@@ -207,9 +208,9 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
 DEFAULT_FROM_EMAIL = "Andrey Egorov <job@andreyegorov.com>"
 CONTACT_EMAIL = "job@andreyegorov.com"
 
-# Контакты
-CONTACT_PHONE = "+39-339-2168555"
-WHATSAPP_NUMBER = "393392168555"
+# Payments
+TBANK_TERMINAL_KEY = os.getenv('TBANK_TERMINAL_KEY', '')
+TBANK_SECRET_KEY = os.getenv('TBANK_SECRET_KEY', '')
 
 # Misc
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
@@ -233,10 +234,6 @@ LOGGING = {
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
 # ===================== DJANGO TINYMCE =====================
-
-# Базовые настройки TinyMCE
-# TINYMCE_API_KEY = 'f80axcxfwy4juoux11elmrxusxzpkbrz85w43nyvug2yta1a'
-# TINYMCE_JS_URL = f"https://cdn.tiny.cloud/1/{TINYMCE_API_KEY}/tinymce/6/tinymce.min.js"
 TINYMCE_JS_URL = "/static/tinymce/tinymce.min.js"
 TINYMCE_COMPRESSOR = False
 TINYMCE_SPELLCHECKER = False

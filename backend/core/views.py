@@ -62,6 +62,13 @@ def article_detail(request, slug):
     article = get_object_or_404(Article, slug=slug, is_published=True)
     return render(request, 'pages/article.html', {'article': article})
 
+# Privacy Policy
+def privacy(request):
+    context = {
+        'page_title': 'Privacy Policy',
+        'meta_description': 'Privacy Policy for andreyegorov.com - information about data collection and processing.',
+    }
+    return render(request, 'pages/privacy.html', context)
 
 @require_POST
 def contact_submit(request):
