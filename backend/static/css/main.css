@@ -11949,15 +11949,6 @@ form textarea:required:valid {
     height: 100%;
     margin-bottom: 0;
     max-width: 720px;
-    -webkit-transform: translateX(-50px);
-       -moz-transform: translateX(-50px);
-        -ms-transform: translateX(-50px);
-            transform: translateX(-50px);
-    -webkit-transition: -webkit-transform var(--_animspeed-slow) var(--_animbezier);
-    transition: -webkit-transform var(--_animspeed-slow) var(--_animbezier);
-    -moz-transition: transform var(--_animspeed-slow) var(--_animbezier), -moz-transform var(--_animspeed-slow) var(--_animbezier);
-    transition: transform var(--_animspeed-slow) var(--_animbezier);
-    transition: transform var(--_animspeed-slow) var(--_animbezier), -webkit-transform var(--_animspeed-slow) var(--_animbezier), -moz-transform var(--_animspeed-slow) var(--_animbezier);
   }
   .mxd-projects-archive__title p {
     display: inline;
