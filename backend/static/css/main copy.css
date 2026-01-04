@@ -1,13 +1,11 @@
 /*! ------------------------------------------------
- * Project Name: Rayo - Digital Agency & Personal Portfolio HTML Template
- * Project Description: Elevate your digital presence with Rayo - dynamic and stylish HTML template designed for creative agencies and personal brands. With modern layouts, smooth interactions and a polished aesthetic, Rayo template helps showcase projects, services and expertise with clarity and impact.
+ * Project Name: AndreyEgorov.com
+ * Project Description: Full-Stack Developer, Data & Product Analyst based in Milan
  * Tags: mix_design, resume, portfolio, personal page, cv, template, one page, responsive, html5, css3, creative, clean, agency, studio 
- * Version: 1.0.0
- * Build Date: July 2025
- * Last Update: August 2025
- * This product is available exclusively on Themeforest
- * Author: mix_design
- * Author URI: https://themeforest.net/user/mix_design */
+ * Version: 1.0.5
+ * Build Date: Aprile 2015
+ * Author: Andrey Egorov
+ * Author URI: https://andreyegorov.com/ */
 /*! File name: main.css
  * ------------------------------------------------
  * ------------------------------------------------
@@ -138,15 +136,6 @@
   --t-opp-bright--light: #FFFFFF;
   --t-opp-medium--light: #ACACAC;
   --t-opp-muted--light: #838383;
-  --bg-demo-screen-01--light: url(../img/demo/screens/01.webp);
-  --bg-demo-screen-02--light: url(../img/demo/screens/02.webp);
-  --bg-demo-screen-03--light: url(../img/demo/screens/03.webp);
-  --bg-demo-screen-04--light: url(../img/demo/screens/04.webp);
-  --bg-demo-screen-05--light: url(../img/demo/screens/05.webp);
-  --bg-demo-screen-06--light: url(../img/demo/screens/06.webp);
-  --bg-demo-screen-07--light: url(../img/demo/screens/07.webp);
-  --bg-demo-screen-08--light: url(../img/demo/screens/08.webp);
-  --bg-demo-screen-09--light: url(../img/demo/screens/09.webp);
   /* dark color scheme */
   --base--dark: #161616;
   --base-rgb--dark: 22, 22, 22;
@@ -176,16 +165,6 @@
   --t-opp-bright--dark: #161616;
   --t-opp-medium--dark: #303030;
   --t-opp-muted--dark: #969696;
-  --bg-demo-screen-01--dark: url(../img/demo/screens/01-d.webp);
-  --bg-demo-screen-02--dark: url(../img/demo/screens/02-d.webp);
-  --bg-demo-screen-03--dark: url(../img/demo/screens/03-d.webp);
-  --bg-demo-screen-04--dark: url(../img/demo/screens/04-d.webp);
-  --bg-demo-screen-05--dark: url(../img/demo/screens/05-d.webp);
-  --bg-demo-screen-06--dark: url(../img/demo/screens/06-d.webp);
-  --bg-demo-screen-07--dark: url(../img/demo/screens/07-d.webp);
-  --bg-demo-screen-08--dark: url(../img/demo/screens/08-d.webp);
-  --bg-demo-screen-09--dark: url(../img/demo/screens/09-d.webp);
-  /* permanent colors */
   --pt-base: #FFFFFF;
   --pt-base-dark: #161616;
   --pt-t-light-bright: #FFFFFF;
@@ -2319,7 +2298,7 @@ p.t-semibold {
   display: -ms-inline-flexbox;
   display: inline-flex;
   position: relative;
-  font-size: 2rem;
+  font-size: 2.5rem;
   overflow: hidden;
   -webkit-transform: scale(1);
      -moz-transform: scale(1);
@@ -4312,6 +4291,52 @@ form textarea:required:valid {
   .mxd-logo__text {
     font-size: 2.4rem;
   }
+}
+
+.mxd-hero__text, .mxd-hero__text2 {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.mxd-hero__text {
+  letter-spacing: normal;
+  color: var(--t-bright);
+  font: normal var(--fw-medium) 9.5rem / 1.2 var(--_font-accent);
+}
+
+.mxd-hero__text2 {
+  letter-spacing: normal;
+  color: var(--t-bright);
+  font: normal var(--fw-medium) 9.5rem / 1.2 var(--_font-accent);
+  margin-top: -2rem;
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+  justify-content: flex-start;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 0 0;
+}
+
+.footer-links li img {
+  display: block;
+}
+
+.footer-blocks__card ul li:first-child img {
+  width: 55%;
+}
+
+@media only screen and (min-width: 768px) {
+    .mxd-hero__text, .mxd-hero__text2 {
+      display: inline-block;
+      margin: 0;
+      padding: 0;
+      font: normal var(--fw-medium) 24rem / 1.2 var(--_font-accent);
+    }
 }
 
 .mxd-section-title {
@@ -11924,15 +11949,6 @@ form textarea:required:valid {
     height: 100%;
     margin-bottom: 0;
     max-width: 720px;
-    -webkit-transform: translateX(-50px);
-       -moz-transform: translateX(-50px);
-        -ms-transform: translateX(-50px);
-            transform: translateX(-50px);
-    -webkit-transition: -webkit-transform var(--_animspeed-slow) var(--_animbezier);
-    transition: -webkit-transform var(--_animspeed-slow) var(--_animbezier);
-    -moz-transition: transform var(--_animspeed-slow) var(--_animbezier), -moz-transform var(--_animspeed-slow) var(--_animbezier);
-    transition: transform var(--_animspeed-slow) var(--_animbezier);
-    transition: transform var(--_animspeed-slow) var(--_animbezier), -webkit-transform var(--_animspeed-slow) var(--_animbezier), -moz-transform var(--_animspeed-slow) var(--_animbezier);
   }
   .mxd-projects-archive__title p {
     display: inline;
@@ -18349,7 +18365,7 @@ form textarea:required:valid {
 }
 @media only screen and (min-width: 1600px) {
   .services-stack {
-    height: 760px;
+    height: 650px;
   }
 }
 
@@ -21027,43 +21043,3 @@ form textarea:required:valid {
 /* ------------------------------------------------*/
 /* Features - Project Details End */
 /* ------------------------------------------------*/
-.mxd-hero__text, .mxd-hero__text2 {
-  display: block;
-  margin: 0;
-  padding: 0;
-}
-
-.mxd-hero__text {
-  letter-spacing: normal;
-  color: var(--t-bright);
-  font: normal var(--fw-medium) 9.2rem / 1.2 var(--_font-accent);
-  word-wrap: break-word;
-}
-
-.mxd-hero__text2 {
-  letter-spacing: normal;
-  color: var(--t-bright);
-  font: normal var(--fw-medium) 9.5rem / 1.2 var(--_font-accent);
-  margin-top: -2rem;
-}
-.mxd-hero__text {
-  line-height: 1.0;
-}
-.mxd-hero__text3 {
-  line-height: 1.2;
-}
-@media only screen and (min-width: 768px) {
-    .mxd-hero__text, .mxd-hero__text2 {
-      display: inline-block;
-      margin: 0;
-      padding: 0;
-      font-style: normal;
-      font-weight: var(--fw-medium);
-      font-size: 23rem;
-      line-height: 1.2;
-      font-family: var(--_font-accent);
-    }
-  .mxd-hero__text3 {
-    margin-left: 10px;
-  }
-}

@@ -130,7 +130,7 @@ jobs:
           sudo docker compose -f docker-compose.production.yml pull
           
           echo "🔄 Restarting application services..."
-          sudo docker compose -f docker-compose.production.yml up -d --no-deps backend gateway
+          sudo docker compose -f docker-compose.production.yml up -d
           
           echo "⏳ Waiting for services to start..."
           sleep 30
