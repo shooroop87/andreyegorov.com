@@ -100,40 +100,21 @@ TEMPLATES = [
 WSGI_APPLICATION = "backend.wsgi.application"
 
 # ===========================================
-# DATABASE
+# DATABASE - SQLite3
 # ===========================================
-if os.getenv("DATABASE_URL"):
-    # Production: использует DATABASE_URL
-    import dj_database_url
-    DATABASES = {
-        "default": dj_database_url.config(default=os.getenv("DATABASE_URL"))
-    }
-elif os.getenv("POSTGRES_HOST"):
-    # Docker/Production: PostgreSQL
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.getenv("POSTGRES_DB", "andreyegorov"),
-            "USER": os.getenv("POSTGRES_USER", "andreyegorov_user"),
-            "PASSWORD": os.getenv("POSTGRES_PASSWORD", "andreyegorov_password"),
-            "HOST": os.getenv("POSTGRES_HOST", "localhost"),
-            "PORT": os.getenv("POSTGRES_PORT", "5435"),
-        }
-    }
+if os.environ.get('DOCKER_ENV'):
+    DB_PATH = Path("/app/data/db.sqlite3")
 else:
-    # Local development: SQLite
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
+    DB_PATH = BASE_DIR / "db.sqlite3"
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": DB_PATH,
     }
+}
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-# Локальная разработка
-if not os.environ.get('DOCKER_ENV') and any(cmd in sys.argv for cmd in ['runserver', 'migrate', 'makemigrations', 'shell', 'createsuperuser']):
-    DATABASES['default']['HOST'] = 'localhost'
 
 DEFAULT_CHARSET = "utf-8"
 FILE_CHARSET = "utf-8"

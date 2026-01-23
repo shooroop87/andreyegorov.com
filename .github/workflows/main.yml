@@ -8,15 +8,6 @@ on:
 jobs:
   tests:
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:13.10
-        env:
-          POSTGRES_USER: andreyegorov_user
-          POSTGRES_PASSWORD: andreyegorov_password
-          POSTGRES_DB: andreyegorov
-        ports: ["5432:5432"]
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
       - uses: actions/checkout@v4
@@ -38,15 +29,8 @@ jobs:
           pip install -r ./backend/requirements.txt
 
       - name: Django tests
-        env:
-          POSTGRES_USER: andreyegorov_user
-          POSTGRES_PASSWORD: andreyegorov_password
-          POSTGRES_DB: andreyegorov
-          DB_HOST: 127.0.0.1
-          DB_PORT: 5432
         run: |
           cd backend/
-          python manage.py makemigrations core --check
           python manage.py migrate
           python manage.py test
 
@@ -141,14 +125,8 @@ jobs:
             sudo docker container prune -f
             sudo docker image prune -f
             
-            echo "🔄 Running migrations..."
-            sudo docker compose -f docker-compose.production.yml exec -T backend python manage.py migrate
-            
             echo "🌍 Compiling messages..."
             sudo docker compose -f docker-compose.production.yml exec -T backend python manage.py compilemessages || true
-            
-            echo "📁 Collecting static files..."
-            sudo docker compose -f docker-compose.production.yml exec -T backend python manage.py collectstatic --noinput --clear
             
             echo "👤 Creating admin user..."
             sudo docker compose -f docker-compose.production.yml exec -T \

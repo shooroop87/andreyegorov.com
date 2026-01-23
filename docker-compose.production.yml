@@ -1,22 +1,9 @@
 volumes:
-  pg_data_production:
   static_volume:
   media:
+  sqlite_data:
 
 services:
-  db:
-    image: postgres:13.10
-    env_file: .env
-    volumes:
-      - pg_data_production:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
-    restart: unless-stopped
-
   backend:
     image: egorovdocker/andreyegorov_backend
     env_file: .env
@@ -25,6 +12,7 @@ services:
     volumes:
       - static_volume:/app/collected_static
       - media:/app/media/
+      - sqlite_data:/app/data/
     healthcheck:
       test: ["CMD-SHELL", "python -c 'import socket; socket.create_connection((\"localhost\", 8000), timeout=2)' || exit 1"]
       interval: 10s
@@ -33,14 +21,11 @@ services:
       start_period: 60s
     command: >
       sh -c "
-        echo 'Collecting static files...' &&
+        mkdir -p /app/data &&
+        python manage.py migrate --noinput &&
         python manage.py collectstatic --clear --noinput --verbosity=1 &&
-        echo 'Starting gunicorn server...' &&
         gunicorn backend.wsgi:application --bind 0.0.0.0:8000 --access-logfile - --error-logfile - --log-level info
       "
-    depends_on:
-      db:
-        condition: service_healthy
     restart: unless-stopped
 
   gateway:
@@ -55,79 +40,3 @@ services:
       backend:
         condition: service_healthy
     restart: unless-stopped
-
-  # === СЕРВИСЫ ОБСЛУЖИВАНИЯ ===
-
-  db-backup:
-    image: postgres:13.10
-    env_file: .env
-    volumes:
-      - ./backups:/backups
-    depends_on:
-      db:
-        condition: service_healthy
-    restart: "no"
-    profiles: ["maintenance"]
-    command: >
-      sh -c "
-        echo 'Creating database backup...' &&
-        pg_dump -h db -U $${POSTGRES_USER:-postgres} $${POSTGRES_DB:-andreyegorov} > /backups/backup_$$(date +%Y%m%d_%H%M%S).sql &&
-        echo 'Database backup created' &&
-        find /backups -name 'backup_*.sql' -mtime +7 -delete &&
-        echo 'Old backups cleaned up'
-      "
-
-  file-cleaner:
-    image: alpine:latest
-    volumes:
-      - media:/app/media/
-    restart: "no"
-    profiles: ["maintenance"]
-    command: >
-      sh -c "
-        echo 'Cleaning old files...' &&
-        find /app/media/temp -type f -mtime +7 -delete 2>/dev/null || true &&
-        echo 'File cleanup completed'
-      "
-
-  static-cleaner:
-    image: alpine:latest
-    volumes:
-      - static_volume:/staticfiles
-    restart: "no"
-    profiles: ["maintenance"]
-    command: >
-      sh -c "
-        echo 'Cleaning static files volume...' &&
-        rm -rf /staticfiles/* || true &&
-        echo 'Static files volume cleaned'
-      "
-
-  system-monitor:
-    image: alpine:latest
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    restart: "no"
-    profiles: ["maintenance"]
-    command: >
-      sh -c "
-        apk add --no-cache docker-cli &&
-        echo 'System Resource Usage:' &&
-        docker stats --no-stream --format 'table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}\t{{.MemPerc}}' &&
-        echo '' &&
-        echo 'Volume Usage:' &&
-        docker system df -v | grep -E '(VOLUME NAME|andreyegorov)' || true
-      "
-
-  docker-cleaner:
-    image: docker:cli
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    restart: "no"
-    profiles: ["maintenance"]
-    command: >
-      sh -c "
-        echo 'Cleaning Docker system...' &&
-        docker system prune -f &&
-        echo 'Docker system cleaned'
-      "
